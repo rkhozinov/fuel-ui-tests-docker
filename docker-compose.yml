@@ -1,21 +1,41 @@
 version: '2.1'
 services:
-  test_env:
+  node:
+    container_name: node
+    env_file:
+      - .env
+    build:
+      context: node
+      args:
+        - FUEL_UI_NPM_REQS=https://raw.githubusercontent.com/openstack/fuel-ui/stable/mitaka/package.json
+    volumes:
+      - ./node:/node
+      - ./fuel-ui:/fuel-ui
+    entrypoint: /node/entrypoint.sh
+    user: root
     links:
-      - postgres
+      - selenium
+    environment:
+      - HOST1=test_env
+      - HOST2=selenium
+
+  selenium:
+    container_name: selenium
+    build:
+      context: selenium/
+      args:
+        - TZ="Europe/Czech"
+        - SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
+        - FIREFOX_VERSION=50.0
+        - GECKODRIVER_VERSION=0.11.1
     cap_add:
       - ALL
     privileged: true
     env_file:
       - .env
-    build:
-      context: test-env/
-      args:
-        - FUEL_UI_NPM_REQS=https://raw.githubusercontent.com/openstack/fuel-ui/stable/mitaka/package.json
-        - FUEL_WEB_PIP_REQS=https://raw.githubusercontent.com/openstack/fuel-web/stable/mitaka/nailgun/test-requirements.txt
     volumes:
-      - ./fuel-ui:/fuel-ui
-      - ./fuel-web:/fuel-web
-      - ./fuel-plugins:/fuel-plugins
-      - ./test-env:/test-env
-    entrypoint: /test-env/entrypoint.sh
+      - ./selenium:/selenium
+    user: seluser
+    entrypoint: /selenium/entrypoint.sh
+    ports:
+      - "4444"
