@@ -12,12 +12,8 @@ services:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
     entrypoint: /node/entrypoint.sh
-    user: root
     links:
       - selenium
-    environment:
-      - HOST1=test_env
-      - HOST2=selenium
 
   selenium:
     container_name: selenium
