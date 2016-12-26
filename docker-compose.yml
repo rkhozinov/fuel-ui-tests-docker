@@ -12,7 +12,6 @@ services:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
     entrypoint: /node/entrypoint.sh
-    user: root
     links:
       - selenium
     environment:
