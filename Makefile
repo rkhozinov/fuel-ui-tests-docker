@@ -4,8 +4,8 @@ fuel_ui_dest="./fuel-ui"
 all: submodules stop run
 
 submodules:
-	@[ -e $(fuel_ui_dest) ] && continue || \
-		{ git submodule sync; git submodule update --recursive --remote; }
+	test -s $(fuel_ui_dest)/gulpfile.js || \
+		{ git submodule sync; git submodule update --init --recursive --remote; }
 
 stop:
 	@sudo docker-compose down --remove-orphans
