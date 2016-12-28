@@ -7,7 +7,7 @@ services:
     build:
       context: node
       args:
-        - FUEL_UI_NPM_REQS=https://raw.githubusercontent.com/openstack/fuel-ui/stable/mitaka/package.json
+        - TZ="Europe/Czech"
     volumes:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
