@@ -1,0 +1,37 @@
+version: '2.1'
+services:
+  node:
+    container_name: node
+    env_file:
+      - .env
+    build:
+      context: node
+      args:
+        - TZ="Europe/Czech"
+    volumes:
+      - ./node:/node
+      - ./fuel-ui:/fuel-ui
+    entrypoint: /node/entrypoint.sh
+    links:
+      - selenium
+
+  selenium:
+    container_name: selenium
+    build:
+      context: selenium/
+      args:
+        - TZ="Europe/Czech"
+        - SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
+        - FIREFOX_VERSION=50.0
+        - GECKODRIVER_VERSION=0.11.1
+    cap_add:
+      - ALL
+    privileged: true
+    env_file:
+      - .env
+    volumes:
+      - ./selenium:/selenium
+    user: seluser
+    entrypoint: /selenium/entrypoint.sh
+    ports:
+      - "4444"
