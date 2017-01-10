@@ -1,8 +1,0 @@
-[submodule "fuel-ui"]
-	path = fuel-ui
-	url = https://github.com/openstack/fuel-ui.git
-	branch = stable/mitaka
-[submodule "fuel-plugins"]
-	path = fuel-plugins
-	url = https://github.com/openstack/fuel-plugins.git
-	branch = master

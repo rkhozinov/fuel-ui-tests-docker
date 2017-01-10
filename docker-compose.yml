@@ -12,13 +12,6 @@ services:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
     entrypoint: /node/entrypoint.sh
-#   entrypoint: bash
-    environment:
-      - START_STANDALONE_SELENIUM=false
-      - SELENIUM_SERVER_PORT=4444
-      - SELENIUM_SERVER=selenium
-      - NAILGUN_PORT=8000
-#      - TEST_PREFIX=test_bond*
     ports:
       - "9057"
     links:
@@ -31,16 +24,11 @@ services:
       args:
         - GECKODRIVER_VERSION=0.9.0
         - FIREFOX_VERSION=46.0
-    environment:
-      - NODE_MAX_INSTANCES=1
-      - NODE_MAX_SESSION=1
-      - NODE_REGISTER_CYCLE=5000
-      - NODE_PORT=5555
     env_file:
       - .env
     volumes:
       - ./selenium:/selenium
     user: seluser
-    entrypoint: /selenium/entry_point.sh
+    entrypoint: /selenium/entrypoint.sh
     ports:
       - "4444"
