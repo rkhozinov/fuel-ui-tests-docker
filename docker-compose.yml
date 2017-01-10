@@ -7,11 +7,20 @@ services:
     build:
       context: node
       args:
-        - TZ="Europe/Czech"
+        - TZ=Europe/Czech
     volumes:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
     entrypoint: /node/entrypoint.sh
+#   entrypoint: bash
+    environment:
+      - START_STANDALONE_SELENIUM=false
+      - SELENIUM_SERVER_PORT=4444
+      - SELENIUM_SERVER=selenium
+      - NAILGUN_PORT=8000
+#      - TEST_PREFIX=test_bond*
+    ports:
+      - "9057"
     links:
       - selenium
 
@@ -20,18 +29,18 @@ services:
     build:
       context: selenium/
       args:
-        - TZ="Europe/Czech"
-        - SELENIUM_URL=https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
-        - FIREFOX_VERSION=50.0
-        - GECKODRIVER_VERSION=0.11.1
-    cap_add:
-      - ALL
-    privileged: true
+        - GECKODRIVER_VERSION=0.9.0
+        - FIREFOX_VERSION=46.0
+    environment:
+      - NODE_MAX_INSTANCES=1
+      - NODE_MAX_SESSION=1
+      - NODE_REGISTER_CYCLE=5000
+      - NODE_PORT=5555
     env_file:
       - .env
     volumes:
       - ./selenium:/selenium
     user: seluser
-    entrypoint: /selenium/entrypoint.sh
+    entrypoint: /selenium/entry_point.sh
     ports:
       - "4444"
