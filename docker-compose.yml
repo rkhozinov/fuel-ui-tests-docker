@@ -2,6 +2,7 @@ version: '2.1'
 services:
   node:
     container_name: node
+    user: node
     env_file:
       - .env
     build:
@@ -12,6 +13,8 @@ services:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
     entrypoint: /node/entrypoint.sh
+    environment:
+      - TEST_PREFIX=${TEST_PREFIX}
     ports:
       - "9057"
     links:
@@ -35,7 +38,7 @@ services:
       - "4444"
 
   share:
-    containter_name: share
+    container_name: share
     image: python:2.7
     volumes:
       - ./share:/share
