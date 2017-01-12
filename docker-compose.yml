@@ -19,7 +19,6 @@ services:
       - "9057"
     links:
       - selenium
-      - share
 
   selenium:
     container_name: selenium
@@ -36,15 +35,3 @@ services:
     entrypoint: /selenium/entrypoint.sh
     ports:
       - "4444"
-
-  share:
-    container_name: share
-    image: python:2.7
-    volumes:
-      - ./share:/share
-      - ./fuel-ui:/fuel-ui
-    entrypoint: /share/entrypoint.sh
-    environment:
-      - HTTP_PORT=8081
-    ports:
-      - "8081:8081"
