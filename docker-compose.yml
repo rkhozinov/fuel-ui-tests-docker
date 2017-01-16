@@ -15,6 +15,7 @@ services:
     entrypoint: /node/entrypoint.sh
     environment:
       - TEST_PREFIX=${TEST_PREFIX}
+      - NAILGUN_HOST=${NAILGUN_HOST}
     ports:
       - "9057"
     links:
