@@ -16,6 +16,7 @@ services:
     environment:
       - TEST_PREFIX=${TEST_PREFIX}
       - NAILGUN_HOST=${NAILGUN_HOST}
+      - REMOTE_HOST=${NAILGUN_HOST}
     ports:
       - "9057"
     links:
