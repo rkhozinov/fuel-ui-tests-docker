@@ -11,3 +11,7 @@ cd /fuel-ui
 
 /etc/init.d/postgresql start
 bash run_dev_server.sh
+while :
+do
+	sleep 1;
+done
