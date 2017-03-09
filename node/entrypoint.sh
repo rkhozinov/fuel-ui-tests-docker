@@ -6,5 +6,6 @@ cd /fuel-ui
 #pip uninstall -y tox
 #pip install tox
 
-/etc/init.d/postgresql start
-bash run_ui_func_tests.sh static/tests/functional/nightly/test_cluster_workflows.js
+#/etc/init.d/postgresql start
+/bin/bash
+#bash run_ui_func_tests.sh static/tests/functional/nightly/test_cluster_workflows.js
