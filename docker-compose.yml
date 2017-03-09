@@ -1,40 +1,67 @@
 version: '2.1'
 services:
-  node:
-    container_name: node
-    user: root
-    env_file:
-      - .env
-    build:
-      context: node
-      args:
-        - TZ=Europe/Czech
-    volumes:
-      - ./node:/node
-      - ./fuel-ui:/fuel-ui
-      - ./fuel-web:/fuel-web
-    entrypoint: /node/entrypoint.sh
-    environment:
-      - TEST_PREFIX=${TEST_PREFIX}
-      - NAILGUN_HOST=${NAILGUN_HOST}
-      - REMOTE_HOST=${NAILGUN_HOST}
-    ports:
-      - "9057"
-    links:
-      - selenium
+ node:
+   container_name: node
+   user: root
+   env_file:
+     - .env
+   build:
+     context: node
+     args:
+       - TZ=Europe/Czech
+   volumes:
+     - ./node:/node
+     - ./fuel-ui:/fuel-ui
+     - ./fuel-web:/fuel-web
+   entrypoint: /node/entrypoint.sh
+   environment:
+           #     - NAILGUN_HOST=0.0.0.0
+     - NAILGUN_PORT=8080
+     - LISTEN_ADDRESS=0.0.0.0
+   ports:
+     - "9057"
+     - "8080"
+     - "8000"
+   links:
+     - selenium
 
-  selenium:
-    container_name: selenium
-    build:
-      context: selenium/
-      args:
-        - GECKODRIVER_VERSION=0.9.0
-        - FIREFOX_VERSION=46.0
-    env_file:
-      - .env
-    volumes:
-      - ./selenium:/selenium
-    user: seluser
-    entrypoint: /selenium/entrypoint.sh
-    ports:
-      - "4444"
+#  dev-server:
+#    container_name: dev-server
+#    user: root
+#    env_file:
+#      - .env
+#    build:
+#      context: dev-server
+#      args:
+#        - TZ=Europe/Czech
+#    volumes:
+#      - ./dev-server:/dev-server
+#      - ./fuel-ui:/fuel-ui
+#      - ./fuel-web:/fuel-web
+#    entrypoint: /dev-server/entrypoint.sh
+#    environment:
+#      - TEST_PREFIX=${TEST_PREFIX}
+#      - NAILGUN_HOST=${NAILGUN_HOST}
+#      - REMOTE_HOST=${NAILGUN_HOST}
+#      - LISTEN_ADDRESS='0.0.0.0'
+#    ports:
+#      - "9057"
+#      - "8080"
+#      - "8000"
+#      - "5544"
+
+ selenium:
+   container_name: selenium
+   build:
+     context: selenium/
+     args:
+       - GECKODRIVER_VERSION=0.9.0
+       - FIREFOX_VERSION=46.0
+   env_file:
+     - .env
+   volumes:
+     - ./selenium:/selenium
+   user: seluser
+   entrypoint: /selenium/entrypoint.sh
+   ports:
+     - "4444"

@@ -52,7 +52,9 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F
 RUN echo "postgres ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/postgres && \
     chmod 0440 /etc/sudoers.d/postgres
 
-RUN apt-get remove -y python-pip && easy_install pip && pip install tox
+RUN apt-get remove -y python-pip && easy_install pip && pip install tox && pip install python-fuelclient && \
+    pip install --allow-all-external -r https://raw.githubusercontent.com/openstack/fuel-web/stable/newton/nailgun/test-requirements.txt && \
+    pip uninstall -y tox && pip install tox
 
 USER postgres
 RUN sudo /etc/init.d/postgresql start && \
