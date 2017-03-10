@@ -1,67 +1,86 @@
 version: '2.1'
 services:
- node:
-   container_name: node
-   user: root
-   env_file:
-     - .env
-   build:
-     context: node
-     args:
-       - TZ=Europe/Czech
-   volumes:
-     - ./node:/node
-     - ./fuel-ui:/fuel-ui
-     - ./fuel-web:/fuel-web
-   entrypoint: /node/entrypoint.sh
-   environment:
-           #     - NAILGUN_HOST=0.0.0.0
-     - NAILGUN_PORT=8080
-     - LISTEN_ADDRESS=0.0.0.0
-   ports:
-     - "9057"
-     - "8080"
-     - "8000"
-   links:
-     - selenium
+  node:
+    container_name: node
+    user: root
+    env_file:
+      - .env
+    build:
+      context: node
+      args:
+        - TZ=Europe/Czech
+    volumes:
+      - ./node:/node
+      - ./fuel-ui:/fuel-ui
+      - ./fuel-web:/fuel-web
+    entrypoint: /node/entrypoint.sh
+    environment:
+      - TEST_PREFIX=${TEST_PREFIX}
+      - NAILGUN_HOST=${NAILGUN_HOST}
+      - NAILGUN_PORT=${NAILGUN_PORT}
+    ports:
+      - "5555"
+      - "9000"
+#   links:
+#     - selenium
+#     - dev-server
+#    depends_on:
+#      - selenium
+#      - dev-server
 
-#  dev-server:
-#    container_name: dev-server
-#    user: root
-#    env_file:
-#      - .env
-#    build:
-#      context: dev-server
-#      args:
-#        - TZ=Europe/Czech
-#    volumes:
-#      - ./dev-server:/dev-server
-#      - ./fuel-ui:/fuel-ui
-#      - ./fuel-web:/fuel-web
-#    entrypoint: /dev-server/entrypoint.sh
-#    environment:
-#      - TEST_PREFIX=${TEST_PREFIX}
-#      - NAILGUN_HOST=${NAILGUN_HOST}
-#      - REMOTE_HOST=${NAILGUN_HOST}
-#      - LISTEN_ADDRESS='0.0.0.0'
-#    ports:
-#      - "9057"
-#      - "8080"
-#      - "8000"
-#      - "5544"
+  db:
+    image: postgres:9.5
+    ports:
+      - "${NAILGUN_DB_PORT}"
+#   volumes:
+#     - ./db:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_PASSWORD=${DB_DB_ROOTPW}
+      - POSTGRES_USER=${DB_ROOT}
+      - POSTGRES_DATABASE=${NAILGUN_DB}
+      - NAILGUN_DB=${NAILGUN_DB}
+      - NAILGUN_DB_USER=${NAILGUN_DB_USER}
+      - NAILGUN_DB_USERPW=${NAILGUN_DB_USERPW}
 
- selenium:
-   container_name: selenium
-   build:
-     context: selenium/
-     args:
-       - GECKODRIVER_VERSION=0.9.0
-       - FIREFOX_VERSION=46.0
-   env_file:
-     - .env
-   volumes:
-     - ./selenium:/selenium
-   user: seluser
-   entrypoint: /selenium/entrypoint.sh
-   ports:
-     - "4444"
+  dev-server:
+    container_name: dev-server
+    user: root
+    env_file:
+      - .env
+    build:
+      context: dev-server
+      args:
+        - TZ=Europe/Czech
+    volumes:
+      - ./dev-server:/dev-server
+      - ./fuel-ui:/fuel-ui
+      - ./fuel-web:/fuel-web
+    entrypoint: /dev-server/entrypoint.sh
+    environment:
+      - NAILGUN_HOST=${NAILGUN_HOST}
+      - REMOTE_HOST=${NAILGUN_HOST}
+    links:
+      - db
+    ports:
+      - "9057"
+      - "8080"
+      - "8000"
+      - "5544"
+
+  selenium:
+    container_name: selenium
+    build:
+      context: selenium/
+      args:
+        - GECKODRIVER_VERSION=0.9.0
+        - FIREFOX_VERSION=46.0
+    env_file:
+      - .env
+    volumes:
+      - ./selenium:/selenium
+    user: seluser
+    entrypoint: /selenium/entrypoint.sh
+    links:
+      - dev-server
+    ports:
+      - "4444"
