@@ -1,11 +1,8 @@
 #!/bin/bash
 
-cd /fuel-ui
-#npm install > npm_install.log
+cp node/run_ui_func_tests.sh fuel-ui/
 
-#pip uninstall -y tox
-#pip install tox
+cd fuel-ui
+npm install > npm_install.log
 
-#/etc/init.d/postgresql start
-/bin/bash
-#bash run_ui_func_tests.sh static/tests/functional/nightly/test_cluster_workflows.js
+bash run_ui_func_tests.sh ${TEST_PATH}

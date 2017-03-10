@@ -15,25 +15,19 @@ services:
       - ./fuel-web:/fuel-web
     entrypoint: /node/entrypoint.sh
     environment:
-      - TEST_PREFIX=${TEST_PREFIX}
+      - TEST_PATH=${TEST_PATH}
       - NAILGUN_HOST=${NAILGUN_HOST}
       - NAILGUN_PORT=${NAILGUN_PORT}
+      - FUEL_WEB_ROOT=${FUEL_WEB_ROOT}
+      - ARTIFACTS=${ARTIFACTS}
     ports:
       - "5555"
       - "9000"
-#   links:
-#     - selenium
-#     - dev-server
-#    depends_on:
-#      - selenium
-#      - dev-server
 
   db:
     image: postgres:9.5
     ports:
       - "${NAILGUN_DB_PORT}"
-#   volumes:
-#     - ./db:/docker-entrypoint-initdb.d/
     environment:
       - POSTGRES_PASSWORD=${DB_DB_ROOTPW}
       - POSTGRES_USER=${DB_ROOT}
@@ -59,6 +53,8 @@ services:
     environment:
       - NAILGUN_HOST=${NAILGUN_HOST}
       - REMOTE_HOST=${NAILGUN_HOST}
+      - FUEL_WEB_ROOT=${FUEL_WEB_ROOT}
+      - ARTIFACTS=${ARTIFACTS}
     links:
       - db
     ports:

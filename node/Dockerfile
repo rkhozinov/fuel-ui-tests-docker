@@ -10,8 +10,7 @@ RUN echo "${TZ}" > /etc/timezone \
 
 RUN apt-get update -qqy \
   && apt-get -qqy --no-install-recommends install \
-     ssh \
-     sshpass \
+     openjdk-7-jdk \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
   && apt-get -y autoremove
 
