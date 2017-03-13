@@ -1,20 +1,42 @@
 version: '2.1'
+
 services:
-  node:
-    container_name: node
-    user: node
+  base:
+    container_name: base
+    user: root
     env_file:
       - .env
+    image: base
     build:
-      context: node
+      context: base
       args:
         - TZ=Europe/Czech
+    entrypoint: /base/entrypoint.sh
     volumes:
-      - ./node:/node
+      - ./base:/base
       - ./fuel-ui:/fuel-ui
-    entrypoint: /node/entrypoint.sh
-    environment:
-      - TEST_PREFIX=${TEST_PREFIX}
+      - ./fuel-web:/fuel-web
+
+  test:
+    container_name: test
+    image: base
+    user: root
+    env_file:
+      - .env
+    volumes:
+      - ./test:/test
+      - ./fuel-ui:/fuel-ui
+      - ./fuel-web:/fuel-web
+    entrypoint: /test/entrypoint.sh
+    ports:
+      - "${NODE_PORT}"
+      - "9000"
+    depends_on:
+      - base
+    links:
+      - dev-server
+      - selenium
+
   db:
     image: postgres:9.5
     ports:
@@ -26,6 +48,8 @@ services:
       - NAILGUN_DB=${NAILGUN_DB}
       - NAILGUN_DB_USER=${NAILGUN_DB_USER}
       - NAILGUN_DB_USERPW=${NAILGUN_DB_USERPW}
+    ports:
+      - "${NAILGUN_DB_PORT}"
 
   dev-server:
     container_name: dev-server
@@ -35,7 +59,7 @@ services:
     build:
       context: dev-server
       args:
-        - TZ=Europe/Czech
+        - FUEL_WEB_REQS=${FUEL_WEB_REQS}
     volumes:
       - ./dev-server:/dev-server
       - ./fuel-ui:/fuel-ui
@@ -49,6 +73,8 @@ services:
       - ARTIFACTS=${ARTIFACTS}
     ports:
       - "9057"
+    depends_on:
+      - build
     links:
       - db
       - selenium
