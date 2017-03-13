@@ -1,20 +1,59 @@
 version: '2.1'
 services:
-  node:
-    container_name: node
+  base:
+    container_name: base
     user: node
     env_file:
       - .env
     build:
-      context: node
+      context: base
       args:
         - TZ=Europe/Czech
     volumes:
-      - ./node:/node
+      - ./base:/base
       - ./fuel-ui:/fuel-ui
+
+  build:
+    container_name: build
+    image: base
+    user: node
+    env_file:
+      - .env
+    volumes:
+      - ./build:/build
+      - ./fuel-ui:/fuel-ui
+    entrypoint: /build/build.sh
+    environment:
+      - TEST_PATH=${TEST_PATH}
+      - NAILGUN_HOST=${NAILGUN_HOST}
+      - NAILGUN_PORT=${NAILGUN_PORT}
+      - FUEL_WEB_ROOT=${FUEL_WEB_ROOT}
+      - ARTIFACTS=${ARTIFACTS}
+    depends_on:
+      - base
+
+  tests:
+    container_name: test
+    image: base
+    user: node
+    env_file:
+      - .env
     entrypoint: /node/entrypoint.sh
     environment:
-      - TEST_PREFIX=${TEST_PREFIX}
+      - TEST_PATH=${TEST_PATH}
+      - NAILGUN_HOST=${NAILGUN_HOST}
+      - NAILGUN_PORT=${NAILGUN_PORT}
+      - FUEL_WEB_ROOT=${FUEL_WEB_ROOT}
+      - ARTIFACTS=${ARTIFACTS}
+    ports:
+      - "${NODE_PORT}"
+      - "9000"
+    depends_on:
+      - base
+    links:
+      - dev-server
+      - selenium
+
   db:
     image: postgres:9.5
     ports:
@@ -26,6 +65,8 @@ services:
       - NAILGUN_DB=${NAILGUN_DB}
       - NAILGUN_DB_USER=${NAILGUN_DB_USER}
       - NAILGUN_DB_USERPW=${NAILGUN_DB_USERPW}
+    ports:
+      - "${NAILGUN_DB_PORT}"
 
   dev-server:
     container_name: dev-server
@@ -49,6 +90,8 @@ services:
       - ARTIFACTS=${ARTIFACTS}
     ports:
       - "9057"
+    depends_on:
+      - build
     links:
       - db
       - selenium
