@@ -1,0 +1,39 @@
+version: '2.1'
+services:
+  node:
+    container_name: node
+    user: node
+    env_file:
+      - .env
+    build:
+      context: node
+      args:
+        - TZ=Europe/Czech
+    volumes:
+      - ./node:/node
+      - ./fuel-ui:/fuel-ui
+    entrypoint: /node/entrypoint.sh
+    environment:
+      - TEST_PREFIX=${TEST_PREFIX}
+      - NAILGUN_HOST=${NAILGUN_HOST}
+      - REMOTE_HOST=${NAILGUN_HOST}
+    ports:
+      - "9057"
+    links:
+      - selenium
+
+  selenium:
+    container_name: selenium
+    build:
+      context: selenium/
+      args:
+        - GECKODRIVER_VERSION=0.9.0
+        - FIREFOX_VERSION=46.0
+    env_file:
+      - .env
+    volumes:
+      - ./selenium:/selenium
+    user: seluser
+    entrypoint: /selenium/entrypoint.sh
+    ports:
+      - "4444"
