@@ -2,7 +2,7 @@ version: '2.1'
 services:
   node:
     container_name: node
-    user: node
+    user: root
     env_file:
       - .env
     build:
@@ -12,6 +12,7 @@ services:
     volumes:
       - ./node:/node
       - ./fuel-ui:/fuel-ui
+      - ./fuel-web:/fuel-web
     entrypoint: /node/entrypoint.sh
     environment:
       - TEST_PREFIX=${TEST_PREFIX}
