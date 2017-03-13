@@ -73,6 +73,8 @@ services:
       - ARTIFACTS=${ARTIFACTS}
     ports:
       - "9057"
+      - "${NAILGUN_PORT}"
+      - "${DEV_SERVER_PORT}"
     depends_on:
       - build
     links:
@@ -93,4 +95,4 @@ services:
     user: seluser
     entrypoint: /selenium/entrypoint.sh
     ports:
-      - "4444"
+      - "${SELENIUM_SERVER_PORT}"
