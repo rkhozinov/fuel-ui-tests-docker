@@ -15,11 +15,42 @@ services:
     entrypoint: /node/entrypoint.sh
     environment:
       - TEST_PREFIX=${TEST_PREFIX}
+  db:
+    image: postgres:9.5
+    ports:
+      - "${NAILGUN_DB_PORT}"
+    environment:
+      - POSTGRES_PASSWORD=${DB_DB_ROOTPW}
+      - POSTGRES_USER=${DB_ROOT}
+      - POSTGRES_DATABASE=${NAILGUN_DB}
+      - NAILGUN_DB=${NAILGUN_DB}
+      - NAILGUN_DB_USER=${NAILGUN_DB_USER}
+      - NAILGUN_DB_USERPW=${NAILGUN_DB_USERPW}
+
+  dev-server:
+    container_name: dev-server
+    user: root
+    env_file:
+      - .env
+    build:
+      context: dev-server
+      args:
+        - TZ=Europe/Czech
+    volumes:
+      - ./dev-server:/dev-server
+      - ./fuel-ui:/fuel-ui
+      - ./fuel-web:/fuel-web
+      - ./dev-server/log:/var/log/nailgun
+    entrypoint: /dev-server/entrypoint.sh
+    environment:
       - NAILGUN_HOST=${NAILGUN_HOST}
       - REMOTE_HOST=${NAILGUN_HOST}
+      - FUEL_WEB_ROOT=${FUEL_WEB_ROOT}
+      - ARTIFACTS=${ARTIFACTS}
     ports:
       - "9057"
     links:
+      - db
       - selenium
 
   selenium:
