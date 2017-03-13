@@ -77,6 +77,7 @@ services:
       context: dev-server
       args:
         - TZ=Europe/Czech
+        - FUEL_WEB_REQS=${FUEL_WEB_REQS}
     volumes:
       - ./dev-server:/dev-server
       - ./fuel-ui:/fuel-ui
