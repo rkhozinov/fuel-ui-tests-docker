@@ -14,16 +14,11 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-cp node/run_ui_func_tests.sh /fuel-ui/
-
 cd /fuel-ui
-npm install > npm_install.log
 
-mkdir -p $ARTIFACTS
-
-export NAILGUN_ROOT=$FUEL_WEB_ROOT/nailgun
-export NAILGUN_STATIC=$ARTIFACTS/static
-export NAILGUN_PORT=${NAILGUN_PORT:-5544}
+mkdir -p ${ARTIFACTS:?}
+export NAILGUN_STATIC="${ARTIFACTS}/static"
+export NAILGUN_PORT=${NAILGUN_PORT:?}
 
 GULP="./node_modules/.bin/gulp"
 
