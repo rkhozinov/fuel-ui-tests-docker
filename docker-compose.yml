@@ -12,6 +12,8 @@ services:
       args:
         - TZ=Europe/Czech
     entrypoint: /base/entrypoint.sh
+    healthcheck:
+      test: test -e /fuel-ui/npm_install.log
     volumes:
       - ./base:/base
       - ./fuel-ui:/fuel-ui
@@ -32,10 +34,12 @@ services:
       - "${NODE_PORT}"
       - "9000"
     depends_on:
-      - base
-    links:
-      - dev-server
-      - selenium
+      base:
+        condition: service_healthy
+      dev-server:
+        condition: service_healthy
+      selenium:
+        condition: service_started
 
   db:
     image: postgres:9.5
@@ -75,11 +79,15 @@ services:
       - "9057"
       - "${NAILGUN_PORT}"
       - "${DEV_SERVER_PORT}"
+    healthcheck:
+      test: test -f /dev-server/started
+      interval: 10s
+      timeout:  5s
+      retries: 5
+
     depends_on:
-      - build
-    links:
-      - db
-      - selenium
+      db:
+        condition: service_started
 
   selenium:
     container_name: selenium
