@@ -16,6 +16,7 @@ RUN apt-get update && \
     apt-get install --yes --reinstall postgresql-client \
                                       openjdk-7-jdk \
                                       python-dev \
+                                      python-pip \
                                       libjpeg-dev \
                                       curl \
                                       lsof && \
