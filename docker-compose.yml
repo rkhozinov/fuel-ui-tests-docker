@@ -52,8 +52,6 @@ services:
       - NAILGUN_DB=${NAILGUN_DB}
       - NAILGUN_DB_USER=${NAILGUN_DB_USER}
       - NAILGUN_DB_USERPW=${NAILGUN_DB_USERPW}
-    ports:
-      - "${NAILGUN_DB_PORT}"
 
   dev-server:
     container_name: dev-server
@@ -70,11 +68,6 @@ services:
       - ./fuel-web:/fuel-web
       - ./dev-server/log:/var/log/nailgun
     entrypoint: /dev-server/entrypoint.sh
-    environment:
-      - NAILGUN_HOST=${NAILGUN_HOST}
-      - REMOTE_HOST=${NAILGUN_HOST}
-      - FUEL_WEB_ROOT=${FUEL_WEB_ROOT}
-      - ARTIFACTS=${ARTIFACTS}
     ports:
       - "9057"
       - "${NAILGUN_PORT}"
