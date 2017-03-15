@@ -1,6 +1,23 @@
 #!/bin/bash
 
 set -x
+
+cd /fuel-ui
+
+NAILGUN_ROOT=$FUEL_WEB_ROOT/nailgun
+
+mkdir -p $ARTIFACTS
+
+export NAILGUN_STATIC=$ARTIFACTS/static
+
+GULP="./node_modules/.bin/gulp"
+TESTS_DIR=static/tests/functional
+TESTS=$TESTS_DIR/test_*.js
+
+echo "Building UI..."
+${GULP} build --no-sourcemaps --extra-entries=sinon --static-dir=$NAILGUN_STATIC
+
+cd /fuel-web
 NAILGUN_ROOT=$FUEL_WEB_ROOT/nailgun
 
 export NAILGUN_STATIC=$ARTIFACTS/static
