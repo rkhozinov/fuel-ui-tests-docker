@@ -1,8 +1,8 @@
 FROM node:0.12.18
 
-RUN  echo "deb http://ftp.cz.debian.org/debian/ jessie main\n" > /etc/apt/sources.list \
-  && echo "deb http://ftp.cz.debian.org/debian/ jessie-updates main\n" >> /etc/apt/sources.list \
-  && echo "deb http://security.debian.org jessie/updates main\n" >> /etc/apt/sources.list
+#RUN  echo "deb http://ftp.cz.debian.org/debian/ jessie main\n" > /etc/apt/sources.list \
+#  && echo "deb http://ftp.cz.debian.org/debian/ jessie-updates main\n" >> /etc/apt/sources.list \
+#  && echo "deb http://security.debian.org jessie/updates main\n" >> /etc/apt/sources.list
 
 ARG TZ
 RUN echo "${TZ}" > /etc/timezone \
