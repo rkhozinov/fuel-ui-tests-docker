@@ -49,9 +49,6 @@ services:
       - POSTGRES_PASSWORD=${DB_ROOTPW}
       - POSTGRES_USER=${DB_ROOT}
       - POSTGRES_DATABASE=${NAILGUN_DB}
-      - NAILGUN_DB=${NAILGUN_DB}
-      - NAILGUN_DB_USER=${NAILGUN_DB_USER}
-      - NAILGUN_DB_USERPW=${NAILGUN_DB_USERPW}
 
   dev-server:
     container_name: dev-server
