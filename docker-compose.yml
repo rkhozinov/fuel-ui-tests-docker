@@ -70,10 +70,10 @@ services:
       - "${NAILGUN_PORT}"
       - "${DEV_SERVER_PORT}"
     healthcheck:
-      test: test -f /dev-server/started
+      test: curl -s -w %{http_code} -o /dev/null http://dev-server:${NAILGUN_PORT}/api/version | grep -q 403
       interval: 10s
       timeout:  5s
-      retries: 5
+      retries: 10
 
     depends_on:
       db:
