@@ -30,7 +30,6 @@ export NAILGUN_CHECK_URL='/api/version'
 
 pushd "$FUEL_WEB_ROOT" > /dev/null
 tox -e stop
-tox -e cleanup
 tox -e start && touch /dev-server/started
 popd > /dev/null
 
