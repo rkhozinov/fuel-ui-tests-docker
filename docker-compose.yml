@@ -46,7 +46,7 @@ services:
     ports:
       - "${NAILGUN_DB_PORT}"
     environment:
-      - POSTGRES_PASSWORD=${DB_DB_ROOTPW}
+      - POSTGRES_PASSWORD=${DB_ROOTPW}
       - POSTGRES_USER=${DB_ROOT}
       - POSTGRES_DATABASE=${NAILGUN_DB}
       - NAILGUN_DB=${NAILGUN_DB}
