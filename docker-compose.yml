@@ -10,7 +10,7 @@ services:
     build:
       context: base
       args:
-        - TZ=Europe/Czech
+        - TZ=America/Los_Angeles
     entrypoint: /base/entrypoint.sh
     healthcheck:
       test: test -e /fuel-ui/npm_install.log
