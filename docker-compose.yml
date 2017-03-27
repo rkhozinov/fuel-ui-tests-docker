@@ -63,10 +63,8 @@ services:
       - ./dev-server:/dev-server
       - ./fuel-ui:/fuel-ui
       - ./fuel-web:/fuel-web
-      - ./dev-server/log:/var/log/nailgun
     entrypoint: /dev-server/entrypoint.sh
     ports:
-      - "9057"
       - "${NAILGUN_PORT}"
       - "${DEV_SERVER_PORT}"
     healthcheck:
