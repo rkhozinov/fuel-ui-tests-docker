@@ -13,13 +13,14 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-
+set -x
 cd /fuel-ui
 
+sleep 60
 mkdir -p ${ARTIFACTS:?}
 export NAILGUN_STATIC="${ARTIFACTS}/static"
 export NAILGUN_PORT=${NAILGUN_PORT:?}
-
+sleep 60
 GULP="./node_modules/.bin/gulp"
 
 echo "Building tests..."

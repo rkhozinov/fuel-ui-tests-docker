@@ -1,7 +1,7 @@
 FROM selenium/node-base:2.53.1
 
-USER root
 
+USER root
 ARG FIREFOX_VERSION=46.0
 RUN apt-get update -qqy \
   && apt-get -qqy --no-install-recommends install firefox \
@@ -20,11 +20,11 @@ RUN wget --no-verbose -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geck
   && tar -C /opt -zxf /tmp/geckodriver.tar.gz \
   && rm /tmp/geckodriver.tar.gz \
   && mv /opt/geckodriver /opt/geckodriver-$GECKODRIVER_VERSION \
-  && chmod 755 /opt/geckodriver-$GECKODRIVER_VERSION \
+  && chmod 777 /opt/geckodriver-$GECKODRIVER_VERSION \
   && ln -fs /opt/geckodriver-$GECKODRIVER_VERSION /usr/bin/geckodriver
 
 COPY generate_config /opt/selenium/generate_config
-RUN chmod +x /opt/selenium/generate_config \
+RUN chmod 777 /opt/selenium/generate_config \
   && chown -R seluser:seluser /opt/selenium
 
 USER seluser

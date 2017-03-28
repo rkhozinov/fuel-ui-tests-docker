@@ -67,7 +67,7 @@ services:
       - "${DEV_SERVER_PORT}"
     healthcheck:
       test: curl -s -w %{http_code} -o /dev/null http://dev-server:${NAILGUN_PORT}/api/version | grep -q 401
-      interval: 20s
+      interval: 1m
       timeout:  10s
       retries: 10
 
