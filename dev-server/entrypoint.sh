@@ -15,7 +15,7 @@ TESTS_DIR=static/tests/functional
 TESTS=$TESTS_DIR/test_*.js
 
 echo "Building UI..."
-${GULP} build --no-sourcemaps --extra-entries=sinon --static-dir=$NAILGUN_STATIC
+gulp  build --no-sourcemaps --extra-entries=sinon --static-dir=$NAILGUN_STATIC
 
 cd /fuel-web
 NAILGUN_ROOT=$FUEL_WEB_ROOT/nailgun
@@ -34,5 +34,5 @@ rm -f /dev-server/started
 tox -e start && touch /dev-server/started
 popd > /dev/null
 
+bash -c "sleep 60"
 bash -c "trap : TERM INT; sleep infinity & wait"
-

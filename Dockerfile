@@ -56,7 +56,7 @@ ENV PLUGIN_RPM=/fuel-plugins/examples/fuel_plugin_example_v4/fuel_plugin_example
 ENV VENV=/root/.virtualenvs/fuel-venv
 
 RUN echo "postgres ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/postgres && \
-    chmod 0440 /etc/sudoers.d/postgres
+    chmod 777 /etc/sudoers.d/postgres
 
 USER postgres
 RUN sudo /etc/init.d/postgresql start && \
@@ -64,7 +64,6 @@ RUN sudo /etc/init.d/postgresql start && \
     createdb nailgun && \
     sudo mkdir /var/log/nailgun
 
-USER root
 RUN git clone https://github.com/openstack/fuel-web.git && \
     git clone https://github.com/openstack/fuel-ui.git
 
@@ -73,7 +72,7 @@ RUN cd /fuel-ui && \
     npm install -g gulp && \
     npm install
 
-RUN chmod +x /usr/local/bin/virtualenvwrapper.sh && \
+RUN chmod 777 /usr/local/bin/virtualenvwrapper.sh && \
     source /usr/local/bin/virtualenvwrapper.sh && \
     mkvirtualenv fuel-venv && \
     workon fuel-venv && \
