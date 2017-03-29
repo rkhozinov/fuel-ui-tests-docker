@@ -15,7 +15,5 @@
 #    under the License.
 
 cd /fuel-ui
-rm -f npm_install.log
 npm install 2>&1 | tee -i npm_install.log
-
-bash -c "trap : TERM INT; sleep infinity & wait"
+node server.js
