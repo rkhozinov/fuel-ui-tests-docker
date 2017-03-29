@@ -14,7 +14,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-cd /fuel-ui
+cd /var/lib/fuel-ui
 rm -f npm_install.log
 npm install 2>&1 | tee -i npm_install.log
 
