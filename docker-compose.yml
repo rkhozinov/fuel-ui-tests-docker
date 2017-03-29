@@ -83,7 +83,7 @@ services:
     build:
       context: selenium/
       args:
-        - GECKODRIVER_VERSION=0.9.0
+        - GECKODRIVER_VERSION=0.15.0
         - FIREFOX_VERSION=46.0
     env_file:
       - .env
