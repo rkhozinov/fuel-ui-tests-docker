@@ -35,7 +35,7 @@ services:
       - "9000"
     depends_on:
       base:
-        condition: service_healthy
+        condition: service_started
       dev-server:
         condition: service_healthy
       selenium:
