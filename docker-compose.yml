@@ -35,7 +35,7 @@ services:
       - "9000"
     depends_on:
       base:
-        condition: service_healthy
+        condition: service_started
       dev-server:
         condition: service_healthy
       selenium:
@@ -70,8 +70,8 @@ services:
       - "${DEV_SERVER_PORT}"
     healthcheck:
       test: curl -s -w %{http_code} -o /dev/null http://dev-server:${NAILGUN_PORT}/api/version | grep -q 401
-      interval: 10s
-      timeout:  5s
+      interval: 20s
+      timeout:  10s
       retries: 10
 
     depends_on:
@@ -83,7 +83,7 @@ services:
     build:
       context: selenium/
       args:
-        - GECKODRIVER_VERSION=0.9.0
+        - GECKODRIVER_VERSION=0.15.0
         - FIREFOX_VERSION=46.0
     env_file:
       - .env
