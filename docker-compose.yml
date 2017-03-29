@@ -11,13 +11,13 @@ services:
       context: base
       args:
         - TZ=America/Los_Angeles
-    entrypoint: /base/entrypoint.sh
+    entrypoint: /var/lib/base/entrypoint.sh
     healthcheck:
       test: test -e /fuel-ui/npm_install.log
     volumes:
-      - ./base:/base
-      - ./fuel-ui:/fuel-ui
-      - ./fuel-web:/fuel-web
+      - ./base:/var/lib/base
+      - ./fuel-ui:/var/lib/fuel-ui
+      - ./fuel-web:/var/lib/fuel-web
 
   test:
     container_name: test
@@ -26,10 +26,10 @@ services:
     env_file:
       - .env
     volumes:
-      - ./test:/test
-      - ./fuel-ui:/fuel-ui
-      - ./fuel-web:/fuel-web
-    entrypoint: /test/entrypoint.sh
+      - ./test:/var/lib/test
+      - ./fuel-ui:/var/lib/fuel-ui
+      - ./fuel-web:/var/lib/fuel-web
+    entrypoint: /var/lib/test/entrypoint.sh
     ports:
       - "${NODE_PORT}"
       - "9000"
@@ -61,10 +61,10 @@ services:
       args:
         - FUEL_WEB_REQS=${FUEL_WEB_REQS}
     volumes:
-      - ./dev-server:/dev-server
-      - ./fuel-ui:/fuel-ui
-      - ./fuel-web:/fuel-web
-    entrypoint: /dev-server/entrypoint.sh
+      - ./dev-server:/var/lib/dev-server
+      - ./fuel-ui:/var/lib/fuel-ui
+      - ./fuel-web:/var/lib/fuel-web
+    entrypoint: /var/lib/dev-server/entrypoint.sh
     ports:
       - "${NAILGUN_PORT}"
       - "${DEV_SERVER_PORT}"
@@ -88,8 +88,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./selenium:/selenium
+      - ./selenium:/var/lib/selenium
     user: seluser
-    entrypoint: /selenium/entrypoint.sh
+    entrypoint: /var/lib/selenium/entrypoint.sh
     ports:
       - "${SELENIUM_SERVER_PORT}"
