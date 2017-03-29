@@ -2,7 +2,7 @@
 
 set -x
 
-cd /fuel-ui
+cd /var/lib/fuel-ui
 
 NAILGUN_ROOT=$FUEL_WEB_ROOT/nailgun
 
@@ -17,7 +17,7 @@ TESTS=$TESTS_DIR/test_*.js
 echo "Building UI..."
 ${GULP} build --no-sourcemaps --extra-entries=sinon --static-dir=$NAILGUN_STATIC
 
-cd /fuel-web
+cd /var/lib/fuel-web
 NAILGUN_ROOT=$FUEL_WEB_ROOT/nailgun
 
 export NAILGUN_STATIC=$ARTIFACTS/static
@@ -30,7 +30,7 @@ export NAILGUN_CHECK_URL='/api/version'
 
 pushd "$FUEL_WEB_ROOT" > /dev/null
 tox -e stop
-rm -f /dev-server/started
+rm -f /var/lib/dev-server/started
 tox -e start && touch /dev-server/started
 popd > /dev/null
 

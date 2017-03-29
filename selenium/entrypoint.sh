@@ -20,7 +20,7 @@ xvfb-run -n $SERVERNUM --server-args="-screen 0 $GEOMETRY -ac +extension RANDR" 
   ${SE_OPTS} &
 NODE_PID=$!
 
-ps -p $NODE_PID > /dev/null && touch /selenium/started
+ps -p $NODE_PID > /dev/null && touch /var/lib/selenium/started
 
 trap shutdown SIGTERM SIGINT
 wait $NODE_PID

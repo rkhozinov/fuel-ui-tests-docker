@@ -14,7 +14,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-cd /fuel-ui
+cd /var/lib/fuel-ui
 
 mkdir -p ${ARTIFACTS:?}
 export NAILGUN_STATIC="${ARTIFACTS}/static"
