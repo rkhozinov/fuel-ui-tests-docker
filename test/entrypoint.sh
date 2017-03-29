@@ -20,7 +20,7 @@ mkdir -p ${ARTIFACTS:?}
 export NAILGUN_STATIC="${ARTIFACTS}/static"
 export NAILGUN_PORT=${NAILGUN_PORT:?}
 
-GULP="./node_modules/.bin/gulp"
+GULP="/var/lib/fuel-ui/node_modules/.bin/gulp"
 
 echo "Building tests..."
 ${GULP} intern:transpile
