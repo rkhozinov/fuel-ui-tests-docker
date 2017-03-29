@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 #    Copyright 2016 Mirantis, Inc.
 #
