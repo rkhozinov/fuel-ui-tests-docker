@@ -78,6 +78,8 @@ services:
       retries: 10
 
     depends_on:
+      base:
+        condition: service_healthy
       db:
         condition: service_started
 
