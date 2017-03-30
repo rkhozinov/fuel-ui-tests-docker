@@ -16,4 +16,5 @@
 
 cd /fuel-ui
 npm install 2>&1 | tee -i npm_install.log
+cd /base
 node server.js
